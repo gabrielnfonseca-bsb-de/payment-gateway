@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: api-bankslip
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bankslip_db
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: toor
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+  doc:
+    swagger-ui:
+      path: /swagger-ui.html
+  kafka:
+    bootstrapServers: localhost:19092
+    properties:
+      schema.registry.url: http://localhost:8081
+      specific.avro.reader: true
+    bank-slip-topic: solicitacao-boleto
+    notification-topic: notification-topic
+    consumer:
+      group-id: api-bankslip
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+server:
+  port: 8282
